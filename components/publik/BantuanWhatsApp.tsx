@@ -27,7 +27,10 @@ export function BantuanWhatsApp({ kode }: { kode?: string }) {
                 Butuh bantuan?
               </h2>
               <p className="mt-1 max-w-[46ch] text-[16px] leading-[1.5] text-white md:text-[17px]">
-                Admin sekolah siap membantu lewat WhatsApp {site.whatsapp.label} pada jam kerja.
+                Admin sekolah siap membantu lewat WhatsApp{' '}
+                <span className="whitespace-nowrap tabular-nums">{site.whatsapp.label}</span>{' '}
+                <span className="whitespace-nowrap">pada jam kerja</span>{' '}
+                <span className="whitespace-nowrap tabular-nums">{site.whatsapp.jamKerja}</span>.
               </p>
             </div>
           </div>

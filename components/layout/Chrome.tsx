@@ -61,7 +61,8 @@ export function Footer() {
                   target="_blank"
                   rel="noopener"
                 >
-                  WhatsApp admin {site.whatsapp.label}
+                  WhatsApp admin{' '}
+                  <span className="whitespace-nowrap tabular-nums">{site.whatsapp.label}</span>
                 </a>
               </li>
               <li>

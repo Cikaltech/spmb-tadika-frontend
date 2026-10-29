@@ -26,7 +26,8 @@ export function BannerBantuan({ kode }: { kode?: string }) {
               Ada yang belum jelas?
             </h2>
             <p className="mt-1 max-w-[46ch] text-[16px] leading-[1.5] text-white">
-              Tanya admin lewat WhatsApp {site.whatsapp.label}.
+              Tanya admin lewat WhatsApp{' '}
+              <span className="whitespace-nowrap tabular-nums">{site.whatsapp.label}</span>.
             </p>
           </div>
         </div>

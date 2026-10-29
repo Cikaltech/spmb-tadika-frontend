@@ -6,7 +6,7 @@ export const site = {
   alamat: 'Jl. Karet, Gg. Karet Jaya No. 31, Pontianak Barat',
   tahunAjaran: '2026/2027',
   semester: 'Ganjil',
-  whatsapp: { label: '+62 851-6755-7464', number: '6285167557464' },
+  whatsapp: { label: '+62 851-6755-7464', number: '6285167557464', jamKerja: '09.00 - 15.00' },
   biaya: {
     pendaftaran: 250000,
     pengembanganNormal: 8000000,
