@@ -10,6 +10,8 @@ type Status =
   | 'selesai'
   | 'belum-diisi'
   | 'sudah-diisi'
+  | 'jadwal-wawancara'
+  | 'wawancara-selesai'
 
 const map: Record<Status, { label: string; icon: IconName; kelas: string }> = {
   'menunggu-pembayaran': {
@@ -52,13 +54,23 @@ const map: Record<Status, { label: string; icon: IconName; kelas: string }> = {
     icon: 'check',
     kelas: 'bg-olive-100 text-olive-700 border-olive-500/40',
   },
+  'jadwal-wawancara': {
+    label: 'Dijadwalkan',
+    icon: 'clock',
+    kelas: 'bg-plum-100 text-plum-700 border-plum-500/40',
+  },
+  'wawancara-selesai': {
+    label: 'Wawancara selesai',
+    icon: 'check',
+    kelas: 'bg-plum-100 text-plum-700 border-plum-500/40',
+  },
 }
 
 export function StatusBadge({ status, className = '' }: { status: Status; className?: string }) {
   const s = map[status]
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[14.5px] font-bold ${s.kelas} ${className}`}
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-[14.5px] font-bold ${s.kelas} ${className}`}
     >
       <Icon name={s.icon} className="h-4 w-4" />
       {s.label}

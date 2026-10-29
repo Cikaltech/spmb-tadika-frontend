@@ -16,6 +16,7 @@ type Name =
   | 'copy'
   | 'menu'
   | 'shield'
+  | 'search'
 
 /** Ikon merek, digambar padat. viewBox 0 0 24 24. */
 const solid: Partial<Record<Name, string>> = {
@@ -51,6 +52,12 @@ const paths: Partial<Record<Name, React.ReactNode>> = {
   ),
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   shield: <path d="M12 3.5 5 6v6c0 4 3 7 7 8.5 4-1.5 7-4.5 7-8.5V6l-7-2.5Z" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.5 4.5" />
+    </>
+  ),
 }
 
 export function Icon({

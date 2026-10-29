@@ -1,6 +1,6 @@
 ---
 name: 'Tadika Cikal Mulia: Design System Portal SPMB'
-version: 1.1
+version: 1.2
 updated: 2026-10-29
 scope: spmb.tadikacikalmulia.com, portal orang tua dan panel admin. Landing page tetap di DESIGN.md v4.2.
 source_of_truth: DESIGN.md v4.2 + tailwind.config.js + PRD-SPMB.md. Berkas ini yang mengikat portal.
@@ -536,6 +536,13 @@ Aturan yang tidak boleh dilonggarkan di admin:
 4. Alasan penolakan wajib terlihat sebelum tombol aktif.
 5. Nominal uang memakai Baloo 2 700 dan rata kanan. Tidak ada angka tanpa pemisah ribuan.
 6. Sidebar `teal-800` sama dengan warna ERP sekarang, jadi staf tidak perlu belajar palet baru.
+7. Bilah alat antrean memuat cari, saring status, dan hitung hasil dalam satu baris. Hitungan hasil ada di bilah alat, bukan pil di samping judul.
+8. Kepala kolom yang bisa diurutkan memakai tombol di dalam `<th aria-sort>`. Penanda arah hanya muncul di kolom yang sedang mengurutkan.
+9. Sel nama memuat nama dan kode dalam dua baris. Tinggi baris 48px untuk isi satu baris, 56px untuk isi dua baris.
+10. Nominal, tanggal, dan sisa waktu memakai `tabular-nums`. Uang rata kanan, waktu rata kiri.
+11. Di bawah 768px tabel antrean dan riwayat berubah menjadi daftar kartu. Tidak ada tabel yang digeser mendatar.
+12. Rel tujuh tahap di halaman detail: tahap lewat memakai warna keluarganya, tahap sekarang lebih tinggi 4px, tahap depan `cream-200`. Tinggi berbeda dipakai supaya keadaan tidak dibedakan warna saja.
+13. Menu sidebar hanya memuat tujuan yang benar-benar ada. Tidak ada item bertanda "Segera" dan tidak ada tautan yang mati.
 
 ## 12. Yang ditolak dari desain sekarang
 
@@ -593,6 +600,8 @@ Uji manual yang tidak bisa diganti grep:
 5. Cek kontras tiap pasangan baru dengan penghitung, bukan mata.
 
 ## 14. Riwayat keputusan
+
+- **29 Okt 2026, v1.2 panel admin dirapikan.** Panel admin disusun ulang sebagai alat kerja, bukan tabel contoh. Antrean mendapat cari, saring status, urut kolom, dan hitung hasil. Tabel di bawah 768px berubah menjadi kartu. Halaman detail mendapat rel tujuh tahap dan remah. Panel keputusan tidak lagi memakai kartu di dalam kartu. Kicker di atas judul dihapus di tiga halaman, dan bilah 4px di item sidebar diganti isian `teal-900` dengan ikon `gold-300`. Ditemukan pula tautan mati: antrean menautkan lima kode, tetapi hanya satu halaman detail yang dibangun. Semua lima kode sekarang punya halaman.
 
 - **29 Okt 2026, v1.1 alur tujuh tahap.** Pemilik menetapkan ulang alur pendaftaran menjadi tujuh tahap: buat akun, pembayaran, verifikasi, isi formulir, observasi, wawancara, pengumuman. Sebelumnya enam tahap dan belum memisahkan observasi dari wawancara. Tabel 2.3 diperluas menjadi tujuh baris. Tahap 7 memakai `teal-900` sebagai penutup urutan. `coral-600` berpindah dari "kendala" ke "wawancara", karena kendala adalah status, bukan tahap. Warna status di bab 7 tidak berubah.
 - **29 Okt 2026, hitung mundur dan kuota.** Panel ringkas di beranda sekarang memuat dua blok berwarna: sisa kuota diskon pada `gold-100` dengan teks `gold-700` 6.41, dan hitung mundur penutupan pada latar putih. Angka hitung mundur memakai Baloo 2 34px dengan tiga warna berbeda. Tanggal tutup adalah data, bukan hardcode di komponen.

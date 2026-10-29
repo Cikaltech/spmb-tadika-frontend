@@ -40,6 +40,10 @@ npm run build                      # hasil statis di out/
 npm run typecheck                  # tsc --noEmit
 ```
 
+Penting: **hentikan `npm run dev` sebelum `npm run build`.** Keduanya menulis ke folder
+`.next` yang sama. Kalau dijalankan bersamaan, `.next` jadi rusak dan dev server error
+`Cannot find module`. Pemulihannya cukup `rm -rf .next` lalu `npm run dev` lagi.
+
 ## Peta folder
 
 ```

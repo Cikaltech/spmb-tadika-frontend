@@ -5,14 +5,16 @@ import { usePathname } from 'next/navigation'
 import { Icon, type IconName } from '@/components/ui/Icon'
 import { site } from '@/content/site'
 
-/** Sidebar panel admin: teal-800 240px, teks putih penuh. design.md bab 11. */
-type Menu = { label: string; icon: IconName; href?: string }
+/**
+ * Sidebar panel admin. teal-800, teks putih penuh, DESIGN.md bab 11.
+ * Item aktif dibedakan oleh isian teal-900 dan ikon emas, bukan bilah tebal di tepi kiri.
+ * Di bawah 768px sidebar menjadi bilah atas: staf jarang membuka panel dari HP.
+ */
+type Menu = { label: string; icon: IconName; href: string }
 
 const menu: Menu[] = [
   { label: 'Verifikasi', icon: 'check', href: '/admin' },
-  { label: 'Pendaftar', icon: 'file' },
   { label: 'Wawancara', icon: 'clock', href: '/admin/wawancara' },
-  { label: 'Pengaturan', icon: 'shield' },
 ]
 
 export function Sidebar() {
@@ -25,50 +27,44 @@ export function Sidebar() {
       : jalur === href || jalur.startsWith(`${href}/`)
 
   return (
-    <aside className="flex flex-col bg-teal-800 text-white md:sticky md:top-0 md:h-screen md:w-60 md:shrink-0">
-      <div className="border-b border-teal-700 px-4 py-4">
-        <p className="font-display text-[19px] font-bold leading-tight">SPMB Tadika</p>
-        <p className="text-[13.5px] leading-tight">Panel admin</p>
+    <aside className="sticky top-0 z-30 flex items-center gap-3 bg-teal-800 px-3 text-white md:static md:h-screen md:w-60 md:shrink-0 md:flex-col md:items-stretch md:gap-0 md:px-0">
+      <div className="min-w-0 shrink-0 md:border-b md:border-teal-700 md:px-5 md:py-5">
+        <p className="font-display text-[17px] font-bold leading-tight md:text-[19px]">
+          SPMB Tadika
+        </p>
+        <p className="hidden text-[13.5px] leading-tight text-white md:block">Panel admin</p>
       </div>
 
-      <nav aria-label="Menu admin" className="px-2 py-3">
-        <ul className="flex flex-wrap gap-1 md:flex-col">
+      <nav aria-label="Menu admin" className="min-w-0 flex-1 md:px-3 md:py-4">
+        <ul className="flex gap-1 overflow-x-auto md:flex-col md:gap-1 md:overflow-visible">
           {menu.map((m) => {
-            const dipilih = m.href ? aktif(m.href) : false
+            const dipilih = aktif(m.href)
             return (
-              <li key={m.label} className="min-w-0">
-                {m.href ? (
-                  <Link
-                    href={m.href}
-                    aria-current={dipilih ? 'page' : undefined}
-                    className={`flex min-h-[40px] items-center gap-3 rounded-field border-l-4 px-3 text-[14.5px] font-bold transition-colors duration-150 ${
-                      dipilih
-                        ? 'border-gold-300 bg-teal-900 text-white'
-                        : 'border-transparent text-white hover:bg-teal-700'
-                    }`}
-                  >
-                    <Icon name={m.icon} className="h-5 w-5 shrink-0" />
-                    <span>{m.label}</span>
-                    {dipilih && <Icon name="arrow-right" className="ml-auto h-4 w-4 shrink-0" />}
-                  </Link>
-                ) : (
-                  <span className="flex min-h-[40px] items-center gap-3 rounded-field border-l-4 border-transparent px-3 text-[14.5px] font-bold text-white">
-                    <Icon name={m.icon} className="h-5 w-5 shrink-0" />
-                    <span>{m.label}</span>
-                    <span className="ml-auto rounded-full bg-teal-700 px-2 py-0.5 text-[12.5px] font-bold text-white">
-                      Segera
-                    </span>
-                  </span>
-                )}
+              <li key={m.href} className="shrink-0 md:shrink">
+                <Link
+                  href={m.href}
+                  aria-current={dipilih ? 'page' : undefined}
+                  className={`flex min-h-[44px] items-center gap-2.5 rounded-field border px-3 text-[14.5px] font-bold transition-colors duration-150 md:min-h-[40px] ${
+                    dipilih
+                      ? 'border-gold-300/50 bg-teal-900 text-white'
+                      : 'border-transparent text-white hover:bg-teal-700'
+                  }`}
+                >
+                  <Icon
+                    name={m.icon}
+                    className={`h-5 w-5 shrink-0 ${dipilih ? 'text-gold-300' : 'text-white'}`}
+                  />
+                  <span className="whitespace-nowrap">{m.label}</span>
+                </Link>
               </li>
             )
           })}
         </ul>
       </nav>
 
-      <div className="mt-auto border-t border-teal-700 px-4 py-4">
-        <p className="text-[13.5px]">{site.sekolah}</p>
-        <p className="text-[13.5px]">Tahun ajaran {site.tahunAjaran}</p>
+      <div className="mt-auto hidden border-t border-teal-700 px-5 py-4 md:block">
+        <p className="text-[13.5px] leading-snug text-white">{site.sekolah}</p>
+        <p className="text-[13.5px] leading-snug text-white">Tahun ajaran {site.tahunAjaran}</p>
       </div>
     </aside>
   )

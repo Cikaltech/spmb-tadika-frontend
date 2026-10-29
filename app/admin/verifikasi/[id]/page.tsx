@@ -1,86 +1,89 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { PanelKeputusan } from '@/components/admin/PanelKeputusan'
+import { TahapRail } from '@/components/admin/TahapRail'
 import { Icon } from '@/components/ui/Icon'
-import { StatusBadge, type StatusName } from '@/components/ui/StatusBadge'
-import { rupiah, site } from '@/content/site'
+import { StatusBadge } from '@/components/ui/StatusBadge'
+import { cariPendaftar, pendaftar } from '@/content/admin'
+import { rupiah } from '@/content/site'
 
 export const metadata: Metadata = { title: 'Detail verifikasi' }
 
 export function generateStaticParams() {
-  return [{ id: 'TCM-2026-0001' }]
+  return pendaftar.map((p) => ({ id: p.kode }))
 }
 
-type Biodata = { label: string; nilai: string; uang?: boolean }
-
-const biodata: Biodata[] = [
-  { label: 'Nama calon siswa', nilai: 'Aisyah Nur Fadilah' },
-  { label: 'Jenjang', nilai: 'TK A' },
-  { label: 'Nama orang tua', nilai: 'Rahmawati' },
-  { label: 'Nomor WhatsApp', nilai: '0812-0000-0001' },
-  { label: 'Nominal dikirim', nilai: rupiah(site.biaya.pendaftaran), uang: true },
-]
-
-type Riwayat = { tanggal: string; nominal: number; status: StatusName; catatan: string }
-
-const riwayat: Riwayat[] = [
-  {
-    tanggal: '29 Okt 2026, 09.41',
-    nominal: site.biaya.pendaftaran,
-    status: 'menunggu-verifikasi',
-    catatan: 'Bukti baru, menunggu pemeriksaan staf.',
-  },
-  {
-    tanggal: '12 Okt 2026, 14.02',
-    nominal: site.biaya.pendaftaran,
-    status: 'ditolak',
-    catatan: 'Foto buram, nominal tidak terbaca.',
-  },
-]
-
+/**
+ * Detail satu bukti transfer. Rel tujuh tahap menjadi penanda posisi, dan panel
+ * keputusan menempel di kanan. DESIGN.md bab 11.
+ */
 export default async function VerifikasiDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  const p = cariPendaftar(id)
+  if (!p) notFound()
+
+  const biodata = [
+    { label: 'Nama calon siswa', nilai: p.nama },
+    { label: 'Jenjang', nilai: p.jenjang },
+    { label: 'Nama orang tua', nilai: p.orangTua },
+    { label: 'Nomor WhatsApp', nilai: p.whatsapp },
+    { label: 'Nominal dikirim', nilai: rupiah(p.nominal), uang: true },
+  ]
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Link
-          href="/admin"
-          className="inline-flex min-h-[40px] items-center gap-2 text-[14.5px] font-bold text-teal-700 underline decoration-2 underline-offset-4 hover:text-teal-800"
-        >
-          <Icon name="arrow-right" className="h-4 w-4 rotate-180" />
-          Kembali ke antrean
-        </Link>
-      </div>
+    <div className="space-y-5">
+      <nav aria-label="Remah">
+        <ol className="flex flex-wrap items-center gap-2 text-[14.5px] font-bold">
+          <li>
+            <Link
+              href="/admin"
+              className="inline-flex min-h-[40px] items-center gap-2 rounded-field text-teal-700 underline decoration-2 underline-offset-4 hover:text-teal-800"
+            >
+              <Icon name="arrow-right" className="h-4 w-4 rotate-180" />
+              Antrean verifikasi
+            </Link>
+          </li>
+          <li aria-hidden="true" className="text-cream-200">/</li>
+          <li aria-current="page" className="font-display tabular-nums text-ink-soft">
+            {p.kode}
+          </li>
+        </ol>
+      </nav>
 
       <header className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="kicker text-sky-600">Verifikasi</p>
-          <h1 className="mt-1 font-display text-[28px] font-extrabold leading-[1.15]">
-            Detail bukti transfer
-          </h1>
-          <p className="mt-1 text-[16px] text-ink-soft">Kode pendaftaran {id}</p>
+        <div className="min-w-0">
+          <h1 className="font-display text-[28px] font-extrabold leading-[1.15]">{p.nama}</h1>
+          <p className="mt-1 text-[14.5px] text-ink-soft">
+            Jenjang {p.jenjang}, kode {p.kode}
+          </p>
         </div>
-        <StatusBadge status="menunggu-verifikasi" />
+        <StatusBadge status={p.status} />
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-        <div className="space-y-6">
+      <TahapRail sekarang={p.tahap} />
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+        <div className="space-y-5">
           <section className="rounded-field border border-cream-200 bg-white p-4">
-            <h2 className="font-display text-[19px] font-bold text-ink">Pratinjau bukti transfer</h2>
-            <div className="mt-3 flex min-h-[220px] flex-col justify-center gap-2 rounded-field border-2 border-dashed border-ink-soft bg-cream-50 px-4 py-6">
-              <Icon name="file" className="h-6 w-6 text-teal-700" />
-              <p className="text-[16px] font-bold text-ink">Bukti transfer tidak ditampilkan</p>
-              <p className="text-[14.5px] text-ink-soft">
-                Nama berkas bukti-transfer-{id}.jpg, ukuran 412 KB.
-              </p>
-              <p className="text-[14.5px] text-ink-soft">
-                Halaman contoh tanpa gambar. Periksa berkas asli di aplikasi staf.
-              </p>
+            <h2 className="font-display text-[19px] font-bold text-ink">Bukti transfer</h2>
+            <div className="mt-3 rounded-field bg-cream-50 px-4 py-4">
+              <div className="flex items-start gap-3">
+                <Icon name="file" className="mt-0.5 h-6 w-6 shrink-0 text-teal-700" />
+                <div className="min-w-0">
+                  <p className="text-[16px] font-bold text-ink">Pratinjau tidak tersedia</p>
+                  <p className="mt-1 break-all text-[14.5px] tabular-nums text-ink-soft">
+                    bukti-transfer-{p.kode}.jpg, 412 KB
+                  </p>
+                  <p className="mt-1 text-[14.5px] text-ink-soft">
+                    Halaman contoh tanpa gambar. Periksa berkas asli di aplikasi staf.
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -88,12 +91,13 @@ export default async function VerifikasiDetailPage({
             <h2 className="font-display text-[19px] font-bold text-ink">Biodata ringkas</h2>
             <dl className="mt-2 divide-y divide-cream-200">
               {biodata.map((b) => (
-                <div key={b.label} className="flex flex-wrap items-baseline justify-between gap-2 py-2.5">
-                  <dt className="text-[14.5px] text-ink-soft">{b.label}</dt>
+                <div
+                  key={b.label}
+                  className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-2.5"
+                >
+                  <dt className="text-[13.5px] text-ink-soft">{b.label}</dt>
                   <dd
-                    className={`text-right text-[16px] font-bold text-ink ${
-                      b.uang ? 'font-display' : ''
-                    }`}
+                    className={"text-right text-[16px] font-bold text-ink " + (b.uang ? 'font-display tabular-nums' : '')}
                   >
                     {b.nilai}
                   </dd>
@@ -102,54 +106,36 @@ export default async function VerifikasiDetailPage({
             </dl>
           </section>
 
-          <section className="rounded-field border border-cream-200 bg-white">
-            <h2 className="px-4 pt-4 font-display text-[19px] font-bold text-ink">
-              Riwayat pembayaran
-            </h2>
-            <div className="mt-3 overflow-x-auto">
-              <table className="w-full min-w-full border-collapse text-left">
-                <caption className="sr-only">Riwayat pembayaran pendaftaran {id}</caption>
-                <thead>
-                  <tr className="bg-cream-100">
-                    <th scope="col" className="kicker px-4 py-3 text-ink">
-                      Tanggal
-                    </th>
-                    <th scope="col" className="kicker px-4 py-3 text-right text-ink">
-                      Nominal
-                    </th>
-                    <th scope="col" className="kicker px-4 py-3 text-ink">
-                      Status
-                    </th>
-                    <th scope="col" className="kicker hidden px-4 py-3 text-ink md:table-cell">
-                      Catatan
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {riwayat.map((r) => (
-                    <tr key={r.tanggal} className="h-12 border-t border-cream-200">
-                      <td className="px-4 text-[14.5px] text-ink">{r.tanggal}</td>
-                      <td className="whitespace-nowrap px-4 text-right font-display text-[16px] font-bold text-ink">
-                        {rupiah(r.nominal)}
-                      </td>
-                      <td className="px-4">
-                        <StatusBadge status={r.status} />
-                      </td>
-                      <td className="hidden px-4 text-[14.5px] text-ink-soft md:table-cell">
-                        {r.catatan}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <section className="rounded-field border border-cream-200 bg-white p-4">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="font-display text-[19px] font-bold text-ink">Riwayat pembayaran</h2>
+              <p className="text-[13.5px] tabular-nums text-ink-soft">
+                {p.riwayat.length} unggahan terakhir
+              </p>
             </div>
-            <p className="border-t border-cream-200 px-4 py-3 text-[13.5px] text-ink-soft">
-              Dua unggahan terakhir. Riwayat lama tetap tersimpan.
-            </p>
+            <ul className="mt-2 divide-y divide-cream-200">
+              {p.riwayat.map((r) => (
+                <li
+                  key={r.tanggal}
+                  className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2 py-3"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[14.5px] font-bold tabular-nums text-ink">{r.tanggal}</p>
+                    <p className="mt-0.5 text-[13.5px] text-ink-soft">{r.catatan}</p>
+                  </div>
+                  <div className="flex shrink-0 flex-wrap items-center gap-3">
+                    <span className="font-display text-[16px] font-bold tabular-nums text-ink">
+                      {rupiah(r.nominal)}
+                    </span>
+                    <StatusBadge status={r.status} />
+                  </div>
+                </li>
+              ))}
+            </ul>
           </section>
         </div>
 
-        <PanelKeputusan kode={id} />
+        <PanelKeputusan kode={p.kode} />
       </div>
     </div>
   )

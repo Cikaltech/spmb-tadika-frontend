@@ -25,6 +25,12 @@
 
   body {
     @apply bg-cream-50 font-sans text-[17px] leading-[1.65] text-ink antialiased;
+    caret-color: theme('colors.teal.700');
+  }
+
+  /* Permukaan peramban ikut palet: pilihan teks dan warna kursor bukan bawaan mesin. */
+  ::selection {
+    @apply bg-gold-100 text-ink;
   }
 
   h1,
@@ -91,7 +97,7 @@
 
   .field-input {
     @apply block w-full rounded-field border-[1.5px] border-ink-soft/60 bg-white px-4 py-[14px]
-      text-[17px] text-ink placeholder:text-ink-soft/70 focus:border-teal-700 focus:outline-none;
+      text-[17px] text-ink placeholder:text-ink-soft focus:border-teal-700 focus:outline-none;
   }
 
   .field-error {

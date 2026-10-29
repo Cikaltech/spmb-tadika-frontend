@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Icon } from '@/components/ui/Icon'
+import { StatusBadge, type StatusName } from '@/components/ui/StatusBadge'
 
 export const metadata: Metadata = { title: 'Jadwal wawancara' }
 
@@ -10,7 +10,7 @@ type Jadwal = {
   tanggal: string
   jam: string
   ruang: string
-  selesai: boolean
+  status: StatusName
 }
 
 const jadwal: Jadwal[] = [
@@ -21,7 +21,7 @@ const jadwal: Jadwal[] = [
     tanggal: 'Senin, 3 Nov 2026',
     jam: '08.30',
     ruang: 'Ruang A, lantai 1',
-    selesai: false,
+    status: 'jadwal-wawancara',
   },
   {
     kode: 'TCM-2026-0002',
@@ -30,7 +30,7 @@ const jadwal: Jadwal[] = [
     tanggal: 'Senin, 3 Nov 2026',
     jam: '10.00',
     ruang: 'Ruang A, lantai 1',
-    selesai: false,
+    status: 'jadwal-wawancara',
   },
   {
     kode: 'TCM-2026-0003',
@@ -39,16 +39,24 @@ const jadwal: Jadwal[] = [
     tanggal: 'Selasa, 4 Nov 2026',
     jam: '09.00',
     ruang: 'Ruang B, lantai 2',
-    selesai: true,
+    status: 'wawancara-selesai',
   },
 ]
 
+const hari = jadwal.reduce<Record<string, Jadwal[]>>((kumpulan, j) => {
+  kumpulan[j.tanggal] = [...(kumpulan[j.tanggal] ?? []), j]
+  return kumpulan
+}, {})
+
+/**
+ * Jadwal wawancara, dikelompokkan per hari. Kolom jam memakai Baloo 2 dan angka
+ * tabular supaya urutan hari terbaca sebagai jadwal, bukan sebagai daftar kartu.
+ */
 export default function WawancaraPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="kicker text-plum-600">Wawancara</p>
-        <h1 className="mt-1 font-display text-[28px] font-extrabold leading-[1.15]">
+        <h1 className="font-display text-[28px] font-extrabold leading-[1.15]">
           Jadwal wawancara
         </h1>
         <p className="mt-1 max-w-[68ch] text-[16px] text-ink-soft">
@@ -56,46 +64,52 @@ export default function WawancaraPage() {
         </p>
       </header>
 
-      <section className="rounded-field border border-cream-200 bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-cream-200 px-4 py-3">
-          <h2 className="font-display text-[19px] font-bold text-ink">Pekan ini</h2>
-          <p className="text-[14.5px] text-ink-soft">3 jadwal</p>
-        </div>
+      <div className="overflow-hidden rounded-field border border-cream-200 bg-white">
+        {Object.entries(hari).map(([tanggal, daftar]) => (
+          <section key={tanggal} aria-labelledby={`hari-${tanggal.replace(/[^a-z0-9]+/gi, '-')}`}>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-y border-cream-200 bg-cream-100 px-4 py-2.5 first:border-t-0">
+              <h2
+                id={`hari-${tanggal.replace(/[^a-z0-9]+/gi, '-')}`}
+                className="font-display text-[19px] font-bold text-ink"
+              >
+                {tanggal}
+              </h2>
+              <p className="text-[13.5px] tabular-nums text-ink-soft">{daftar.length} jadwal</p>
+            </div>
 
-        <ul className="divide-y divide-cream-200">
-          {jadwal.map((j) => (
-            <li key={j.kode} className="flex flex-wrap items-start gap-3 px-4 py-3">
-              <span aria-hidden="true" className="mt-1 h-10 w-1 shrink-0 rounded-full bg-plum-600" />
-              <div className="min-w-0 flex-1">
-                <p className="text-[16px] font-bold text-ink">{j.nama}</p>
-                <p className="text-[14.5px] text-ink-soft">
-                  {j.kode} {j.jenjang}
-                </p>
-                <p className="mt-1 text-[14.5px] text-ink">
-                  {j.tanggal}, pukul {j.jam}
-                </p>
-                <p className="text-[14.5px] text-ink-soft">{j.ruang}</p>
-              </div>
+            <ul className="divide-y divide-cream-200">
+              {daftar.map((j) => (
+                <li
+                  key={j.kode}
+                  className="grid grid-cols-[4.25rem_minmax(0,1fr)] items-start gap-x-4 gap-y-2 px-4 py-3 md:grid-cols-[5rem_minmax(0,1fr)_auto]"
+                >
+                  <p className="font-display text-[19px] font-bold leading-none tabular-nums text-ink">
+                    {j.jam}
+                  </p>
 
-              {j.selesai ? (
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-olive-500/40 bg-olive-100 px-3 py-1 text-[14.5px] font-bold text-olive-700">
-                  <Icon name="check" className="h-4 w-4" />
-                  Wawancara selesai
-                </span>
-              ) : (
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-plum-500/40 bg-plum-100 px-3 py-1 text-[14.5px] font-bold text-plum-700">
-                  <Icon name="clock" className="h-4 w-4" />
-                  Dijadwalkan
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+                  <div className="min-w-0">
+                    <p className="text-[16px] font-bold leading-tight text-ink">{j.nama}</p>
+                    <p className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13.5px] text-ink-soft">
+                      <span className="font-display font-bold tabular-nums">{j.kode}</span>
+                      <span>{j.jenjang}</span>
+                      <span>{j.ruang}</span>
+                    </p>
+                  </div>
+
+                  <div className="col-span-2 md:col-span-1 md:justify-self-end">
+                    <StatusBadge status={j.status} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
 
         <p className="border-t border-cream-200 px-4 py-3 text-[13.5px] text-ink-soft">
-          Daftar contoh tanpa sambungan server. Hubungi orang tua lewat WhatsApp untuk perubahan.
+          Daftar contoh tanpa sambungan server. Kabari orang tua lewat WhatsApp bila jadwal
+          berubah.
         </p>
-      </section>
+      </div>
     </div>
   )
 }
