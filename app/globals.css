@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Font self-host dari design.md 3.2. Tanpa Google Fonts. */
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('/fonts/baloo2-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('/fonts/nunito-sans-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream-50 font-sans text-[17px] leading-[1.65] text-ink antialiased;
+    caret-color: theme('colors.teal.700');
+  }
+
+  /* Permukaan peramban ikut palet: pilihan teks dan warna kursor bukan bawaan mesin. */
+  ::selection {
+    @apply bg-gold-100 text-ink;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-ink;
+    text-wrap: balance;
+  }
+
+  /* Ring fokus dua lapis, design.md 4.4. Terlihat di latar terang dan blok pekat. */
+  :focus-visible {
+    outline: 3px solid #d8be84;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(11, 59, 56, 0.6);
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Tombol aksi utama. Emas identitas logo, satu per layar. */
+  .btn-gold {
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full bg-gold-600 px-7
+      text-[17px] font-bold text-white transition-colors duration-200 ease-warm hover:bg-gold-700;
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-[52px] items-center justify-center gap-2 rounded-full border-2
+      border-teal-700 bg-white px-7 text-[17px] font-bold text-teal-700 transition-colors
+      duration-200 ease-warm hover:bg-teal-50;
+  }
+
+  .btn-quiet {
+    @apply inline-flex min-h-[44px] items-center gap-2 text-[17px] font-bold text-teal-700 underline
+      decoration-2 underline-offset-4 hover:text-teal-800;
+  }
+
+  .card {
+    @apply rounded-card border border-cream-200 bg-white shadow-soft;
+  }
+
+  .panel {
+    @apply rounded-panel border border-cream-200 bg-white shadow-soft;
+  }
+
+  /* Label di atas field, 16px 700. Placeholder bukan label. */
+  .field-label {
+    @apply mb-2 block text-[16px] font-bold text-ink;
+  }
+
+  .field-hint {
+    @apply mt-2 text-[14.5px] leading-[1.5] text-ink-soft;
+  }
+
+  .field-input {
+    @apply block w-full rounded-field border-[1.5px] border-ink-soft/60 bg-white px-4 py-[14px]
+      text-[17px] text-ink placeholder:text-ink-soft focus:border-teal-700 focus:outline-none;
+  }
+
+  .field-error {
+    @apply mt-2 flex items-start gap-2 text-[14.5px] font-bold text-coral-700;
+  }
+
+  .kicker {
+    @apply font-sans text-[12.5px] font-extrabold uppercase tracking-[0.08em];
+  }
+
+  /* Sel stepper 12 bagian, design.md bab 8. */
+  .step-cell {
+    @apply flex min-h-[64px] items-center gap-3 rounded-field border-[1.5px] border-cream-200
+      bg-white px-3 py-2 text-[14.5px] font-bold text-ink transition-colors duration-200;
+  }
+}
+
+/* Masuk viewport, tidak lebih dari 6 elemen per section. Mati bila reduce. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 420ms cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
