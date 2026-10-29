@@ -17,12 +17,14 @@ export const site = {
   },
   jenjang: ['TK A', 'TK B'],
   logoSrc: '/images/logo-cikal-mulia.jpeg',
+  /** Batas akhir pendaftaran. GANTI dengan tanggal resmi sekolah sebelum dipublikasikan. */
+  pendaftaranTutup: '2027-01-31T23:59:59+07:00',
 }
 
 export const rupiah = (n: number) =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n)
 
-/** Enam tahap pendaftaran, satu keluarga jewel per tahap. design.md 2.3. */
+/** Tujuh tahap pendaftaran, satu keluarga jewel per tahap. design.md 2.3. */
 export type Tahap = {
   id: string
   nomor: number
@@ -35,58 +37,67 @@ export type Tahap = {
 
 export const tahap: Tahap[] = [
   {
-    id: 'bayar',
+    id: 'akun',
     nomor: 1,
-    nama: 'Bayar',
-    ringkas: 'Transfer biaya pendaftaran lalu unggah bukti.',
+    nama: 'Buat akun',
+    ringkas: 'Isi email, nomor WhatsApp, dan biodata ananda.',
     warna: 'bg-gold-600',
     tint: 'bg-gold-100',
     teksTint: 'text-gold-700',
   },
   {
-    id: 'verifikasi',
+    id: 'bayar',
     nomor: 2,
-    nama: 'Verifikasi',
-    ringkas: 'Admin memeriksa bukti transfer, maksimal 1 kali 24 jam kerja.',
+    nama: 'Pembayaran',
+    ringkas: 'Transfer biaya pendaftaran lalu unggah bukti transfernya.',
     warna: 'bg-sky-600',
     tint: 'bg-sky-100',
     teksTint: 'text-sky-700',
   },
   {
-    id: 'formulir',
+    id: 'verifikasi',
     nomor: 3,
-    nama: 'Isi formulir',
-    ringkas: 'Dua belas bagian data ananda dan keluarga.',
+    nama: 'Verifikasi',
+    ringkas: 'Admin memeriksa bukti transfer, maksimal 1 kali 24 jam kerja.',
     warna: 'bg-teal-700',
     tint: 'bg-teal-100',
     teksTint: 'text-teal-700',
   },
   {
-    id: 'wawancara',
+    id: 'formulir',
     nomor: 4,
-    nama: 'Wawancara',
-    ringkas: 'Jadwal datang ke sekolah bersama ananda.',
+    nama: 'Isi formulir',
+    ringkas: 'Dua belas bagian data ananda dan keluarga.',
     warna: 'bg-plum-600',
     tint: 'bg-plum-100',
     teksTint: 'text-plum-700',
   },
   {
-    id: 'hasil',
+    id: 'observasi',
     nomor: 5,
-    nama: 'Hasil',
-    ringkas: 'Keputusan penerimaan dan langkah berikutnya.',
+    nama: 'Observasi',
+    ringkas: 'Ananda mengikuti observasi singkat di sekolah.',
     warna: 'bg-olive-600',
     tint: 'bg-olive-100',
     teksTint: 'text-olive-700',
   },
   {
-    id: 'kendala',
+    id: 'wawancara',
     nomor: 6,
-    nama: 'Kendala',
-    ringkas: 'Ada yang perlu diperbaiki. Ikuti petunjuk admin.',
+    nama: 'Wawancara',
+    ringkas: 'Orang tua wawancara bersama ustadzah sekolah.',
     warna: 'bg-coral-600',
     tint: 'bg-coral-100',
     teksTint: 'text-coral-700',
+  },
+  {
+    id: 'pengumuman',
+    nomor: 7,
+    nama: 'Pengumuman',
+    ringkas: 'Hasil seleksi diumumkan lewat portal dan WhatsApp.',
+    warna: 'bg-teal-900',
+    tint: 'bg-teal-100',
+    teksTint: 'text-teal-900',
   },
 ]
 

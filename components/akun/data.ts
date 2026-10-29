@@ -5,7 +5,7 @@ export const pendaftaran = {
   jenjang: 'TK A',
   orangTua: 'Sari Dewi',
   status: 'menunggu-pembayaran' as const,
-  /** Indeks tahap aktif di content/site.ts. Tahap 1: Bayar. */
-  tahapAktif: 0,
+  /** Indeks tahap aktif di content/site.ts. Tahap 2: Pembayaran. */
+  tahapAktif: 1,
   bagianTerisi: 11,
 }

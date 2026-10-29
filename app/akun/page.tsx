@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Status pendaftaran ananda, biaya, dan formulir SPMB Tadika Cikal Mulia.',
 }
 
-const sisaKuota = site.biaya.kuotaDiskon - 1
+const sisaKuota = site.biaya.kuotaDiskon - site.biaya.kuotaTerpakai
 
 export default function AkunPage() {
   const adaPendaftaran: boolean = true
@@ -97,7 +97,7 @@ export default function AkunPage() {
         <h2 id="judul-tahap" className="text-[23px] font-extrabold">
           Tahap pendaftaran
         </h2>
-        <p className="mt-1 text-[14.5px] text-ink-soft">Enam tahap, berurutan dari atas.</p>
+        <p className="mt-1 text-[14.5px] text-ink-soft">Tujuh tahap, berurutan dari atas.</p>
         <ol className="mt-4 space-y-2">
           {tahap.map((t, i) => {
             const sedang = i === pendaftaran.tahapAktif

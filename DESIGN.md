@@ -1,6 +1,6 @@
 ---
 name: 'Tadika Cikal Mulia: Design System Portal SPMB'
-version: 1.0
+version: 1.1
 updated: 2026-10-29
 scope: spmb.tadikacikalmulia.com, portal orang tua dan panel admin. Landing page tetap di DESIGN.md v4.2.
 source_of_truth: DESIGN.md v4.2 + tailwind.config.js + PRD-SPMB.md. Berkas ini yang mengikat portal.
@@ -142,21 +142,23 @@ Tiga lapis warna. Permukaan untuk latar. Aksi untuk tombol dan tautan. Jewel unt
 `gold-600` adalah warna logo. Tombol utama memakai emas di semua halaman portal.
 `teal-700` tidak dipakai sebagai tombol utama. Tugasnya tautan dan aksi pendukung.
 
-### 2.3 Blok jewel: enam warna, enam tahap
+### 2.3 Blok jewel: tujuh warna, tujuh tahap
 
 | Tahap | Token | Hex | Blok untuk | Putih di atasnya | Tint muda | Teks di atas tint |
 |---|---|---|---|---|---|---|
-| 1 Bayar | `gold-600` | `#8F702B` | bilah kartu, tombol bayar | 4.65 | `gold-100` | `gold-700` 6.41 |
-| 2 Verifikasi | `sky-600` | `#2C6E8F` | bilah kartu, header bagian | 5.62 | `sky-100` | `sky-700` 7.06 |
-| 3 Isi formulir | `teal-700` | `#17605A` | bilah kartu, progress bar | 7.35 | `teal-100` | `teal-700` 6.28 |
-| 4 Wawancara | `plum-600` | `#7A3E63` | bilah kartu, kartu jadwal | 7.79 | `plum-100` | `plum-700` 8.59 |
-| 5 Hasil | `olive-600` | `#55733F` | bilah kartu, badge lulus | 5.37 | `olive-100` | `olive-700` 6.82 |
-| 6 Kendala | `coral-600` | `#C24A2E` | bilah kartu, badge tolak | 4.87 | `coral-100` | `coral-700` 5.20 |
+| 1 Buat akun | `gold-600` | `#8F702B` | nomor langkah, bilah kartu | 4.65 | `gold-100` | `gold-700` 6.41 |
+| 2 Pembayaran | `sky-600` | `#2C6E8F` | nomor langkah, header bagian | 5.62 | `sky-100` | `sky-700` 7.06 |
+| 3 Verifikasi | `teal-700` | `#17605A` | nomor langkah, progress bar | 7.35 | `teal-100` | `teal-700` 6.28 |
+| 4 Isi formulir | `plum-600` | `#7A3E63` | nomor langkah, kartu bagian | 7.79 | `plum-100` | `plum-700` 8.59 |
+| 5 Observasi | `olive-600` | `#55733F` | nomor langkah, kartu jadwal | 5.37 | `olive-100` | `olive-700` 6.82 |
+| 6 Wawancara | `coral-600` | `#C24A2E` | nomor langkah, kartu jadwal | 4.87 | `coral-100` | `coral-700` 5.20 |
+| 7 Pengumuman | `teal-900` | `#0B3B38` | bilah penutup, kartu hasil | 12.38 | `teal-100` | `teal-900` 10.58 |
 
 Aturan pakai:
 
 - Satu layar memakai maksimal 2 keluarga jewel pada blok besar. Badge status tidak dihitung.
-- Urutan tahap tetap: emas, sky, teal, plum, olive, coral. Jangan diacak per render.
+- Urutan tahap tetap: emas, sky, teal, plum, olive, coral, teal-900. Jangan diacak per render.
+- `teal-900` hanya dipakai tahap 7 dan band gelap. Jangan dipakai tahap lain.
 - Warna blok dipakai untuk bidang besar. Panjang teks di atas blok jewel maksimal 2 baris.
 - `sun-500` bukan anggota urutan tahap. Perannya badge sorotan saja.
 - `sun-100` dipakai untuk latar badge sorotan, selalu dengan teks `ink` 14.61. Contohnya badge diskon 65%.
@@ -394,7 +396,7 @@ Aturan lintas komponen:
 
 ## 7. Status SPMB
 
-Enam keluarga warna, sebelas status. Satu tahap satu keluarga. Di dalam satu tahap, ikon dan kata yang membedakan.
+Tujuh keluarga warna, sebelas status. Satu tahap satu keluarga. Di dalam satu tahap, ikon dan kata yang membedakan.
 
 | Status kode | Bahasa manusia | Keluarga | Pill | Teks pill | Ikon | Kontras |
 |---|---|---|---|---|---|---|
@@ -547,7 +549,7 @@ Diukur dari tangkapan layar portal sekarang, 29 Oktober 2026.
 | Halaman terasa seperti dokumen cetak | Tidak ada kartu, tidak ada bidang warna, hanya garis rambut | Kartu putih radius 24 dengan `shadow-soft`, jarak 24px |
 | Stepper 12 kotak krem | Semua bagian tampak sama, kecil, tanpa ikon keadaan | Sel 64px, nomor lingkaran, 4 keadaan berwarna plus ikon (bab 8) |
 | Badge "Sedang diperiksa" abu | Status tidak terbaca sebagai status | Badge warna, ikon, kata penuh (bab 7) |
-| Tidak ada warna tahap | Orang tua tidak tahu sedang di tahap mana | Enam keluarga jewel, satu per tahap |
+| Tidak ada warna tahap | Orang tua tidak tahu sedang di tahap mana | Tujuh keluarga jewel, satu per tahap |
 | Unggah berkas memakai input bawaan | Muncul teks Inggris "Choose file" dan "No file chosen" | Kotak unggah Indonesia, tombol "Pilih berkas", pratinjau nama dan ukuran |
 | Unggah berkas tanpa pratinjau | Nama berkas kecil, tanpa ukuran, tanpa tombol hapus | Nama 16px 700, ukuran, ikon centang, tombol Ganti dan Hapus |
 | Kepala halaman dan progres ikut tergulung | Saat mengisi bagian 11, orang tua tidak melihat posisi bagiannya | Kepala lengket 96px mobile dan 80px desktop (bab 8.1) |
@@ -592,6 +594,8 @@ Uji manual yang tidak bisa diganti grep:
 
 ## 14. Riwayat keputusan
 
+- **29 Okt 2026, v1.1 alur tujuh tahap.** Pemilik menetapkan ulang alur pendaftaran menjadi tujuh tahap: buat akun, pembayaran, verifikasi, isi formulir, observasi, wawancara, pengumuman. Sebelumnya enam tahap dan belum memisahkan observasi dari wawancara. Tabel 2.3 diperluas menjadi tujuh baris. Tahap 7 memakai `teal-900` sebagai penutup urutan. `coral-600` berpindah dari "kendala" ke "wawancara", karena kendala adalah status, bukan tahap. Warna status di bab 7 tidak berubah.
+- **29 Okt 2026, hitung mundur dan kuota.** Panel ringkas di beranda sekarang memuat dua blok berwarna: sisa kuota diskon pada `gold-100` dengan teks `gold-700` 6.41, dan hitung mundur penutupan pada latar putih. Angka hitung mundur memakai Baloo 2 34px dengan tiga warna berbeda. Tanggal tutup adalah data, bukan hardcode di komponen.
 - **29 Okt 2026, v1.0.** Design System portal SPMB dibuat. Pemilik menilai tampilan lama monoton: satu permukaan krem, tombol navy `#182432`, tanpa warna tahap. Keputusan: token sama persis dengan DESIGN.md v4.2 landing. `gold-600` untuk aksi utama, `teal-700` untuk tautan dan aksi sekunder. Enam keluarga jewel memetakan enam tahap pendaftaran. Sasaran baca orang tua menetapkan batas bawah 12.5px, body 17px, target 44px. Garis field dinaikkan dari `#E5E3D7` (1.29) ke `ink-soft` (5.75). Status wajib tiga lapis. Font Baloo 2 dan Nunito Sans dipakai karena landing page sudah memakainya.
 - **29 Okt 2026, batas token.** Sempat dipertimbangkan tombol utama `teal-700` seperti tertulis di ringkasan tugas. Dibatalkan karena `00-BRIEF.md` keputusan 2 menetapkan emas sebagai tombol aksi utama. `teal-700` tetap dipakai untuk tautan, garis sekunder, dan ring fokus isi. Tidak ada hex baru di kedua pilihan.
 - **29 Okt 2026, kesejajaran token.** Token di berkas ini diuji satu per satu dengan `tailwind.config.js` landing. Hasilnya sama persis untuk 35 warna. Satu selisih ditemukan: `teal-500` `#2A8A80` ada di tabel kontras `00-BRIEF.md`, tetapi tidak ada di config. Token itu tidak diadopsi supaya portal tidak memperkenalkan warna baru.
